@@ -10,7 +10,8 @@ use App\Http\Resources\UsersResource;
 use App\Models\User;
 use App\Models\User_Profile;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
+
+use Auth;
 
 class UserController extends Controller
 {
@@ -19,9 +20,10 @@ class UserController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
-        return UsersResource::collection(User_Profile::all());
+        $id=$request->id;
+        return UsersResource::collection(User::find($id)->profiles()->get());
     }
 
     /**
@@ -43,9 +45,11 @@ class UserController extends Controller
     public function store(Request $request)
     {
 
-//$id=auth()->user()->id; problem
+        $user = Auth::user();
+        $id = $user->id;
+       
 
-        $count =  User::find(2)->profiles()->count();
+        $count =  User::find($id)->profiles()->count();
         if ($count === 3) {
             return response()->json([
                 'message' => 'Profile already created'
@@ -63,7 +67,7 @@ class UserController extends Controller
             $user->user_email = $data['user_email'];
             $user->user_phone = $data['user_phone'];
             $user->user_address = $data['user_address'];
-            $user->user_id = 2;
+            $user->user_id = $id;
             $user->save();
             return response($user);
         }
@@ -77,7 +81,7 @@ class UserController extends Controller
      */
     public function show(User_Profile $user_Profile)
     {
-        return new UserResource($user_Profile);
+        return new UsersResource($user_Profile);
     }
 
     /**

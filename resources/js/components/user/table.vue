@@ -45,16 +45,18 @@
                                     :error-messages="errorFor('profile_email')"
                                 ></v-text-field>
                                 <v-text-field
-                                    name="profile_mobile"
+                                    name="profile_phone"
                                     v-model="editedItem.user_phone"
                                     label="Mobile"
-                                    :error-messages="errorFor('profile_mobile')"
+                                    :error-messages="errorFor('profile_phone')"
                                 ></v-text-field>
                                 <v-text-field
                                     name="profile_address"
                                     v-model="editedItem.user_address"
                                     label="Address"
-                                    :error-messages="errorFor('profile_address')"
+                                    :error-messages="
+                                        errorFor('profile_address')
+                                    "
                                 ></v-text-field>
                             </v-form>
                         </v-card-text>
@@ -108,10 +110,11 @@
     </v-data-table>
 </template>
 <script>
-import axios from "axios";
-import ValidationErrors from '../../shared/mixins/ValidationErrors'
+
+import ValidationErrors from "../../shared/mixins/ValidationErrors";
 export default {
-    mixins:[ValidationErrors],
+    mixins: [ValidationErrors],
+    props: { userId: [String, Number] },
     data: () => ({
         dialog: false,
         dialogDelete: false,
@@ -135,14 +138,13 @@ export default {
         editedItem: {
             profile_name: "",
             user_email: "",
-            user_mobile: "",
+            user_phone: "",
             user_address: "",
-            
         },
         defaultItem: {
             profile_name: "",
             user_email: "",
-            user_mobile: "",
+            user_phone: "",
             user_address: "",
         },
         items: ["public", "work", "private"],
@@ -165,16 +167,19 @@ export default {
 
     created() {
         this.initialize();
+        console.log(this.$route.params.id);
     },
 
     methods: {
         initialize() {
-            this.loading=true;
-            axios.get('/api/users').then(res=>{
-                this.users=res.data.data
-            }).catch(error=>{
-
-            }).then(()=>(this.loading=false));
+            this.loading = true;
+            axios
+                .get(`/api/users`, { params: { id: this.$route.params.id } })
+                .then((res) => {
+                    this.users = res.data.data;
+                })
+                .catch((error) => {})
+                .then(() => (this.loading = false));
         },
 
         editItem(item) {
@@ -213,16 +218,15 @@ export default {
         async save() {
             if (this.editedIndex > -1) {
             } else {
-                this.errors=null
+                this.errors = null;
                 try {
                     await axios.post("/api/users", this.editedItem);
                     this.initialize();
                     this.close();
                 } catch (error) {
-                    this.errors= error.response.data.errors
+                    this.errors = error.response.data.errors;
                 }
             }
-           
         },
     },
 };

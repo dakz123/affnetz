@@ -2,7 +2,7 @@
     <v-app>
         <v-navigation-drawer v-model="drawer" fixed app>
             <v-list dense>
-                <v-list-item to="profile">
+                <v-list-item to="admin_index">
                     <v-list-item-action>
                         <v-icon>mdi-home</v-icon>
                     </v-list-item-action>
@@ -18,12 +18,12 @@
                         <v-list-item-title>Contact</v-list-item-title>
                     </v-list-item-content>
                 </v-list-item>
-                <v-list-item to="adduser" >
+                <v-list-item to="admin_table" >
                     <v-list-item-action>
                         <v-icon>mdi-account-multiple</v-icon>
                     </v-list-item-action>
                     <v-list-item-content>
-                        <v-list-item-title>Admin</v-list-item-title>
+                        <v-list-item-title>Users</v-list-item-title>
                     </v-list-item-content>
                 </v-list-item>
                 <v-list-item @click="logout">

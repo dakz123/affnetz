@@ -1,9 +1,9 @@
 import Login from "./components/auth/LoginComponent.vue";
 import Register from "./components/auth/RegisterComponent.vue";
-import Admin from "./components/admin/AdminComponent.vue";
-import User from "./components/admin/UserComponent.vue";
-import Profile from "./components/user/ProfileComponent.vue";
-import AddUser from "./components/user/AddUser.vue"
+import UserIndex from "./components/user/index.vue";
+import UserTable from "./components/user/table.vue";
+import AdminIndex from "./components/admin/index.vue";
+import AdminTable from "./components/admin/table.vue";
 export const routes = [
     {
         path: "/",
@@ -20,14 +20,14 @@ export const routes = [
         component: Register,
     },
     {
-        path: "/admin",
-        name: "admin",
-        component: Admin,
+        path: "/user_index",
+        name: "user_index",
+        component: UserIndex,
         children: [
             {
-                path: "/user",
-                name: "user",
-                component: User,
+                path: "/list",
+                name: "list",
+                component: UserTable,
             },
         ],
         beforeEnter: (to, from, next) => {
@@ -39,14 +39,14 @@ export const routes = [
         },
     },
     {
-        path: "/profile",
-        name: "profile",
-        component: Profile,
+        path: "/admin_index",
+        name: "admin_index",
+        component: AdminIndex,
         children: [
             {
-                path: "/adduser",
-                name: "adduser",
-                component: AddUser,
+                path: "/admin_table",
+                name: "admin_table",
+                component: AdminTable,
             },
         ],
         

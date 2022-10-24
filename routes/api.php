@@ -20,8 +20,11 @@ use Illuminate\Support\Facades\Route;
 // Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 //     return $request->user();
 // });
- Route::post('/register',[AuthController::class,'register']);
- Route::post('/login',[AuthController::class,'login']);
- Route::get('/user',[AuthController::class,'index']);
- Route::get('/reports',[AuthController::class,'report']);
- Route::apiResource('/users',UserController::class);
+Route::group(['middleware' => ['auth:sanctum']], function () {
+    Route::apiResource('/users', UserController::class)->only(['store', 'update', 'destroy']);
+});
+Route::get('/users', [UserController::class, 'index']);
+Route::post('/register', [AuthController::class, 'register']);
+Route::post('/login', [AuthController::class, 'login']);
+Route::get('/user', [AuthController::class, 'index']);
+Route::get('/reports', [AuthController::class, 'report']);

@@ -68,14 +68,14 @@ export default {
                    username:this.username,
                    password:this.password 
                 })).data;
-                console.log(response.token);
+                console.log(response.user.id);
                 localStorage.setItem('token',response.token);
                 localStorage.setItem('role',response.role);
                 if(response.role === 1){
-                    this.$router.push({name:'profile'});    
+                    this.$router.push({name:'admin_index',params:{id:response.user.id}});    
                 }else if(response.role === 0)
                 {
-                    this.$router.push({name:'admin'});
+                    this.$router.push({name:'user_index',params:{id:response.user.id}});
                      
                    
                 }

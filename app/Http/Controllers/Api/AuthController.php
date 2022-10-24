@@ -30,7 +30,7 @@ class AuthController extends Controller
         ]);
         $token = $user->createToken('myapptoken')->plainTextToken;
         $role= $user->role;
-        return response()->json([
+        return response([
             'user' => $user,
             'token' => $token,
             'role' => $role
@@ -55,7 +55,7 @@ class AuthController extends Controller
         $token = $user->createToken('myapptoken')->plainTextToken;
         $role= $user->role;
 
-        return response()->json([
+        return response([
             'user' => $user,
             'token' => $token,
             'role' => $role

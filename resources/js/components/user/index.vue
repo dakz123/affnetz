@@ -2,7 +2,7 @@
     <v-app>
         <v-navigation-drawer v-model="drawer" fixed app>
             <v-list dense>
-                <v-list-item to="admin">
+                <v-list-item to="user_index">
                     <v-list-item-action>
                         <v-icon>mdi-home</v-icon>
                     </v-list-item-action>
@@ -18,12 +18,12 @@
                         <v-list-item-title>Contact</v-list-item-title>
                     </v-list-item-content>
                 </v-list-item>
-                <v-list-item to="user" >
+                <v-list-item :to="{name:'list',params:{id:this.$route.params.id}}" >
                     <v-list-item-action>
                         <v-icon>mdi-account-multiple</v-icon>
                     </v-list-item-action>
                     <v-list-item-content>
-                        <v-list-item-title>Users</v-list-item-title>
+                        <v-list-item-title>User</v-list-item-title>
                     </v-list-item-content>
                 </v-list-item>
                 <v-list-item @click="logout">
@@ -48,7 +48,7 @@
         <v-main>
             <!-- Provides the application the proper gutter -->
             <v-container fluid>
-                <router-view></router-view>
+                <router-view :userId="this.$route.params.id"></router-view>
                 <!-- If using vue-router -->
                 
             </v-container>
@@ -66,6 +66,9 @@ export default {
         return {
             drawer:null
         }
+    },
+    mounted() {
+       console.log(this.$route.params.id)
     },
     methods: {
         logout(){
